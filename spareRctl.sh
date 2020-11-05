@@ -1,29 +1,33 @@
+echo >> sparerctl.log
+printf '#%.0s' {1..88} >> sparerctl.log
+echo -e "\n$(date)\n" >> sparerctl.log
+
 for x in $(cat /proc/cmdline); do
     case $x in
         --ssh) # 22
-                /usr/bin/sshd &>> sRc.log &
+                /usr/bin/sshd &>> sparerctl.log &
                 ;;&
         --novnc) # 6080
-                /usr/bin/novnc &>> sRc.log &
+                /usr/bin/novnc &>> sparerctl.log &
                 ;&
         --vnc) # 5900
                 /usr/bin/x11vnc -xkb -noxrecord -noxfixes -noxdamage \
                                 -repeat -forever -shared \
                                 -auth $(ps wwwwaux | grep auth | grep root | head -n 1 | awk '{ print $15 }') \
-                                -passwd spareRctl.sh &>> sRc.log &
+                                -passwd spareRctl.sh &>> sparerctl.log &
                 ;;&
         
         --wifi)
                 false
                 while [[ $? != 0 ]]; do
                     sleep 0.3
-                    /usr/bin/nmcli device wifi rescan >> sRc.log
+                    /usr/bin/nmcli device wifi rescan >> sparerctl.log
                     sleep 0.3
-                    /usr/bin/nmcli device wifi connect spareRctl password spareRctl.sh >> sRc.log
+                    /usr/bin/nmcli device wifi connect spareRctl password spareRctl.sh >> sparerctl.log
                 done
                 ;;
         --ap)
-                /usr/bin/nmcli device wifi hotspot ssid spareRctl password spareRctl.sh &>> sRc.log
+                /usr/bin/nmcli device wifi hotspot ssid spareRctl password spareRctl.sh &>> sparerctl.log
                 ;;
     esac
 done
