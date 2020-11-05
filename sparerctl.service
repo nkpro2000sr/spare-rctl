@@ -1,0 +1,17 @@
+[Unit]
+Description=spare remote control to access at the time of problem
+Wants=network-online.target
+After=network.target network-online.target
+Wants=sshdgenkeys.service
+After=sshdgenkeys.service
+Requires=graphical.target
+#After=graphical.target
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/bash /opt/spareRctl.sh
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
