@@ -9,7 +9,7 @@ Requires=graphical.target
 
 [Service]
 User=root
-WorkingDirectory=/root
+WorkingDirectory=/root/spareRctl
 ExecStart=/usr/bin/bash /opt/spareRctl.sh
 KillMode=mixed
 
